@@ -1,0 +1,14 @@
+.seccion {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.seccion label {
+    display: block;
+    margin-top: 5px;
+}
+
+.seccion input, .seccion select, .seccion textarea {
+    width: 100%;
+}
