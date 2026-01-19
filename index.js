@@ -52,12 +52,22 @@ cantidadSelect.addEventListener('change', function(){
     */
     container.innerHTML = '';
 
-    // Generar bloques de sección
+    /* 
+    Genera bloques de sección {locutor,duración, tipo sección, etc}
+    forEach recorre el array creando una nueva sección (seccionObj)
+    tantas como se hayan seleccionado siendo "i" el número de la sección en el array [0,1,2...]
+    */
     seccionesArray.forEach((seccionObj, i) => {
+        // Crea un <div> vacío en memoria (todavía no está en el HTML)
         const divSeccion = document.createElement('div');
+        // Sirve para estilos CSS y para identificar visualmente cada bloque
         divSeccion.className = 'seccion';
+        // Guarda qué índice del array representa este bloque 
+        // Es la conexión entre DOM y array****************
         divSeccion.setAttribute('data-seccion', i);
 
+
+        // Describe la estructura de una sección pero no crea HTML todavía
         const campos = [
             { label: 'Locutor', type: 'input', campo: 'locutor' },
             { label: 'Duración', type: 'input', campo: 'duracion' },
@@ -67,29 +77,36 @@ cantidadSelect.addEventListener('change', function(){
             { label: 'Observaciones', type: 'textarea', campo: 'observaciones' }
         ];
 
+        // Recorre una sección para crear campo por campo
         campos.forEach(c => {
             const label = document.createElement('label');
             label.textContent = c.label;
 
+            // Se declara el input pero sin el tipo ya que eso se asigna después
             let input;
             if (c.type === 'input') {
                 input = document.createElement('input');
                 input.type = 'text';
-                input.value = seccionObj[c.campo]; // Mantener valor previo
+                // Lee el dato desde el array. Permite no perder valores al redibujar
+                input.value = seccionObj[c.campo]; 
             } else if (c.type === 'textarea') {
                 input = document.createElement('textarea');
                 input.value = seccionObj[c.campo];
             } else if (c.type === 'select') {
                 input = document.createElement('select');
+                // Crea cada opción recorriendo una lista de opciones
                 c.opciones.forEach(op => {
                     const option = document.createElement('option');
                     option.value = op;
                     option.textContent = op;
+                    // Crea una opción visible y seleccionable
                     if (seccionObj[c.campo] === op) option.selected = true;
+                    // Marca como seleccionada la opción guardada en el array
                     input.appendChild(option);
                 });
             }
 
+            // Identifica a que sección y a que campo pertenece cada input
             input.setAttribute('data-campo', c.campo);
             input.setAttribute('data-seccion', i);
 
@@ -100,10 +117,12 @@ cantidadSelect.addEventListener('change', function(){
                 seccionesArray[idx][campo] = e.target.value;
             });
 
+            // Añade los elementos al DOM
             divSeccion.appendChild(label);
             divSeccion.appendChild(input);
         });
 
+        // Inserta la sección dentro de #desplegable-container
         container.appendChild(divSeccion);
     });
 });
