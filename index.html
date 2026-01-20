@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html lang="esp">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma TUA</title>
     <link rel="stylesheet" href="index.CSS">
+    <link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+
 </head>
 
 <body>
@@ -23,10 +30,12 @@
             <option value="10">10</option>
         </select>
     </div>
-    <div id="desplegable-container">
 
-    </div>
+    <div id="desplegable-container"></div>
 
+    <button onclick="generarPDF()">Generar PDF</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="index.js"></script>
 </body>
 
