@@ -50,7 +50,7 @@ cantidadSelect.addEventListener('change', function(){
     elije un número diferente de secciones para que estas no se añadan
     a las elegidas previamente
     */
-    container.innerHTML = '';
+    desplegablesContainer.innerHTML = '';
 
     /* 
     Genera bloques de sección {locutor,duración, tipo sección, etc}
@@ -123,6 +123,6 @@ cantidadSelect.addEventListener('change', function(){
         });
 
         // Inserta la sección dentro de #desplegable-container
-        container.appendChild(divSeccion);
+        desplegablesContainer.appendChild(divSeccion);
     });
 });
