@@ -69,9 +69,17 @@ cantidadSelect.addEventListener('change', function(){
 
         // Describe la estructura de una sección pero no crea HTML todavía
         const campos = [
-            { label: 'Locutor', type: 'input', campo: 'locutor' },
+            { label: 'Locutor/locutora', type: 'input', campo: 'locutor' },
             { label: 'Duración', type: 'input', campo: 'duracion' },
-            { label: 'Tipo de sección', type: 'select', campo: 'tipo', opciones: ['Informativo','Entrevista','Música','Publicidad'] },
+            { label: 'Sección', type: 'select', campo: 'tipo', 
+            opciones: [
+                'La cápsula del tiempo',
+                'El mecenazgo',
+                'Salvando al gato de Schrödinger',
+                'El mundo que viene',
+                'Olimpia',
+                'La oveja negra',
+                'La Séptima Fila'] },
             { label: 'Tema', type: 'input', campo: 'tema' },
             { label: 'Cama', type: 'input', campo: 'cama' },
             { label: 'Observaciones', type: 'textarea', campo: 'observaciones' }
