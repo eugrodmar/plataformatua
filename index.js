@@ -12,6 +12,28 @@ Declaramos esta variable para el JS.
 Es un array vacio que va a almacenar N secciones y sus datos
 */
 let seccionesArray = [];
+
+// Declaramos la variable que almacena el nombre de los locurores
+
+let locutores = [];
+
+/*
+Realizamos un fetch al archivo local o a la API para tomar los nombres de los locutores.
+Hasta que no se carguen los datos del JSON no se va a iniciar el resto del código que
+está dentro de la función iniciarEscaleta(); de tal forma que se evitan errores como que
+el select está vacío o undefined.
+*/
+
+fetch('/locutores.json')
+    .then(res => res.json())
+    .then(data => {
+        locutores = data;
+        iniciarEscaleta();
+    })
+    .catch(err => console.error('Error al cargar la lista de locutores, err'));
+
+
+function iniciarEscaleta(){
 /*
 Cada vez que el usuario cambia el número de secciones,
 lee el valor seleccionado, lo convierte en número
@@ -69,7 +91,7 @@ cantidadSelect.addEventListener('change', function(){
 
         // Describe la estructura de una sección pero no crea HTML todavía
         const campos = [
-            { label: 'Locutor/locutora', type: 'input', campo: 'locutor' },
+            { label: 'Locutor/locutora', type: 'select', campo: 'locutor', opciones: locutores},
             { label: 'Duración', type: 'input', campo: 'duracion' },
             { label: 'Sección', type: 'select', campo: 'tipo', 
             opciones: [
@@ -134,3 +156,5 @@ cantidadSelect.addEventListener('change', function(){
         desplegablesContainer.appendChild(divSeccion);
     });
 });
+
+}
