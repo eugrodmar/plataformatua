@@ -24,10 +24,12 @@ está dentro de la función iniciarEscaleta(); de tal forma que se evitan errore
 el select está vacío o undefined.
 */
 
-fetch('/locutores.json')
+fetch('/opciones.json')
     .then(res => res.json())
     .then(data => {
-        locutores = data;
+        locutores = data.locutores;
+        duracion = data.duracion;
+        seccion = data.seccion;
         iniciarEscaleta();
     })
     .catch(err => console.error('Error al cargar la lista de locutores, err'));
@@ -92,16 +94,8 @@ cantidadSelect.addEventListener('change', function(){
         // Describe la estructura de una sección pero no crea HTML todavía
         const campos = [
             { label: 'Locutor/locutora', type: 'select', campo: 'locutor', opciones: locutores},
-            { label: 'Duración', type: 'input', campo: 'duracion' },
-            { label: 'Sección', type: 'select', campo: 'tipo', 
-            opciones: [
-                'La cápsula del tiempo',
-                'El mecenazgo',
-                'Salvando al gato de Schrödinger',
-                'El mundo que viene',
-                'Olimpia',
-                'La oveja negra',
-                'La Séptima Fila'] },
+            { label: 'Duración', type: 'select', campo: 'duracion', opciones: duracion },
+            { label: 'Sección', type: 'select', campo: 'tipo', opciones: seccion },
             { label: 'Tema', type: 'input', campo: 'tema' },
             { label: 'Cama', type: 'input', campo: 'cama' },
             { label: 'Observaciones', type: 'textarea', campo: 'observaciones' }
