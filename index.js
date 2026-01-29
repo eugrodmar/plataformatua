@@ -6,6 +6,11 @@ que va a almacernar el número total de secciones que va a tener la escaleta
  */
 const cantidadSelect = document.getElementById('cantidad');
 const desplegablesContainer = document.getElementById('desplegable-container');
+const especialSelect = document.getElementById('especial');
+const miniSelect = document.getElementById('mini');
+const pregunta1 = document.getElementById('pregunta-1');
+const pregunta2 = document.getElementById('pregunta-2');
+const pregunta3 = document.getElementById('pregunta-3');
 
 /*
 Declaramos esta variable para el JS.
@@ -13,36 +18,51 @@ Es un array vacio que va a almacenar N secciones y sus datos
 */
 let seccionesArray = [];
 
-// Declaramos la variable que almacena el nombre de los locurores
-
-let locutores = [];
-
 /*
 Realizamos un fetch al archivo local o a la API para tomar los nombres de los locutores.
 Hasta que no se carguen los datos del JSON no se va a iniciar el resto del código que
 está dentro de la función iniciarEscaleta(); de tal forma que se evitan errores como que
 el select está vacío o undefined.
 */
-
 fetch('/opciones.json')
     .then(res => res.json())
     .then(data => {
-        locutores = data.locutores;
-        duracion = data.duracion;
-        seccion = data.seccion;
+        const locutores = data.locutores;
+        const duracion = data.duracion;
+        const seccion = data.seccion;
         iniciarEscaleta();
     })
-    .catch(err => console.error('Error al cargar la lista de locutores, err'));
+    .catch(err => console.error('Error al cargar la lista de locutores', err));
+
+if (!data.locutores || !data.duracion || !data.seccion) {
+    console.error('Datos incompletos en JSON');
+    return;
+} 
 
 
 function iniciarEscaleta(){
-/*
-Cada vez que el usuario cambia el número de secciones,
-lee el valor seleccionado, lo convierte en número
-y lo guarda para saber cuántas secciones tengo que manejar.
-El evento change se dispara si el usuario elige otra opción
-*/
+
+// Mostrar la primera pregunta al iniciar
+pregunta1.classList.add('visible');
+
+// Event listener para mostrar la segunda pregunta cuando se contesta la primera
+especialSelect.addEventListener('change', function(){
+    pregunta2.classList.add('visible');
+});
+
+// Event listener para mostrar la tercera pregunta cuando se contesta la segunda
 cantidadSelect.addEventListener('change', function(){
+    pregunta3.classList.add('visible');
+});
+
+// Event listener para generar secciones cuando se contesta la tercera pregunta
+miniSelect.addEventListener('change', function(){
+    generarSecciones();
+});
+
+}
+
+function generarSecciones(){
     const cantidad = parseInt(cantidadSelect.value);
 
     // Ajustar el array de secciones según la cantidad nueva
@@ -61,6 +81,7 @@ cantidadSelect.addEventListener('change', function(){
             });
         }
     } else if (cantidad < seccionesArray.length) {
+        
         /* 
         Elimina secciones extra (.slice) si se reduce creando 
         un nuevo array que evita problemas como secciones "fantasma"
@@ -149,6 +170,13 @@ cantidadSelect.addEventListener('change', function(){
         // Inserta la sección dentro de #desplegable-container
         desplegablesContainer.appendChild(divSeccion);
     });
-});
+}
+
+function generarPDF(){
+
+    const { jsPDF } = window.jspdf
+
+    const doc = new jsPDF()
 
 }
+

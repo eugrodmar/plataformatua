@@ -1,3 +1,17 @@
+.pregunta-inicial {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s ease, height 0.5s ease, margin 0.5s ease;
+    margin: 0;
+}
+
+.pregunta-inicial.visible {
+    opacity: 1;
+    height: auto;
+    margin: 10px 0;
+}
+
 .seccion {
     border: 1px solid #ccc;
     padding: 10px;

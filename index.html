@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="esp">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,16 @@
 
 <body>
     <header>Escaletas TUA</header>
-    <div>
+
+    <div class="pregunta-inicial" id="pregunta-1">
+        <label for="especial">¿Es un programa especial?</label>
+        <select name="especial" id="especial">
+            <option value="true">Sí</option>
+            <option value="false">No</option>
+        </select>
+    </div>
+    
+    <div class="pregunta-inicial" id="pregunta-2">
         <label for="cantidad">Número de secciones</label>
         <select name="cantidad" id="cantidad">
             <option value="1">1</option>
@@ -28,6 +37,14 @@
             <option value="8">8</option>
             <option value="9">9</option>
             <option value="10">10</option>
+        </select>
+    </div>
+
+    <div class="pregunta-inicial" id="pregunta-3">
+        <label for="mini">¿Hay minisección?</label>
+        <select name="mini" id="mini">
+            <option value="true">Sí</option>
+            <option value="false">No</option>
         </select>
     </div>
 
