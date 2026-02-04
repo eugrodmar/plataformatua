@@ -59,12 +59,12 @@ especialSelect.addEventListener('change', function(){
 
 // Event listener para mostrar la tercera pregunta cuando se contesta la segunda
 cantidadSelect.addEventListener('change', function(){
-    pregunta3.classList.add('visible');
+    pregunta3.classList.add('visible')  
+    generarSecciones();
 });
 
 // Event listener para generar secciones cuando se contesta la tercera pregunta
 miniSelect.addEventListener('change', function(){
-    generarSecciones();
 });
 
 }
