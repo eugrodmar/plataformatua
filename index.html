@@ -16,17 +16,15 @@
 <body>
     <header>Escaletas TUA</header>
 
-    <div class="pregunta-inicial" id="pregunta-1">
-        <label for="especial">¿Es un programa especial?</label>
-        <select name="especial" id="especial">
-            <option value="true">Sí</option>
-            <option value="false">No</option>
-        </select>
-    </div>
+    <div>¡Hola! ¿Creamos la escaleta del programa?</div>
+
+    <button onclick="preguntaInicial()" id="pregunta-inicial">¡Comencemos!</button>
+
     
-    <div class="pregunta-inicial" id="pregunta-2">
+    <div class="pregunta-inicial" id="pregunta-1">
         <label for="cantidad">Número de secciones</label>
-        <select name="cantidad" id="cantidad">
+        <select name="cantidad" id="cantidad" autocomplete="off">
+            <option value="" selected disabled>Selecciona nº secciones</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -40,9 +38,10 @@
         </select>
     </div>
 
-    <div class="pregunta-inicial" id="pregunta-3">
+    <div class="pregunta-inicial" id="pregunta-2">
         <label for="mini">¿Hay minisección?</label>
-        <select name="mini" id="mini">
+        <select name="mini" id="mini" autocomplete="off">
+            <option value="" selected disabled>Selecciona una opción</option>
             <option value="true">Sí</option>
             <option value="false">No</option>
         </select>
@@ -50,7 +49,7 @@
 
     <div id="desplegable-container"></div>
 
-    <button onclick="generarPDF()">Generar PDF</button>
+    <button onclick="generarPDF()" id="generar-pdf">Generar PDF</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="index.js"></script>

@@ -4,13 +4,14 @@ cantidadSelect hace referencia al select con id cantidad.
 desplegablesContainer hace referencia al div con id desplegable-container
 que va a almacernar el número total de secciones que va a tener la escaleta
  */
-const cantidadSelect = document.getElementById('cantidad');
 const desplegablesContainer = document.getElementById('desplegable-container');
-const especialSelect = document.getElementById('especial');
+const cantidadSelect = document.getElementById('cantidad');
 const miniSelect = document.getElementById('mini');
+const preguntaInicial = document.getElementById('pregunta-inicial');
 const pregunta1 = document.getElementById('pregunta-1');
 const pregunta2 = document.getElementById('pregunta-2');
-const pregunta3 = document.getElementById('pregunta-3');
+const bttnGenerarPDF = document.getElementById('generar-pdf');
+
 
 /*
 Declaramos esta variable para el JS.
@@ -47,24 +48,26 @@ fetch('/opciones.json')
     })
     .catch(err => console.error('Error al cargar la lista de locutores', err));
 
+
 function iniciarEscaleta(){
 
-// Mostrar la primera pregunta al iniciar
-pregunta1.classList.add('visible');
-
-// Event listener para mostrar la segunda pregunta cuando se contesta la primera
-especialSelect.addEventListener('change', function(){
-    pregunta2.classList.add('visible');
+// Event listener para mostrar la primera pregunta al hacer click en el botón inicial
+// El botón se oculta para que no interfiera con el proceso
+preguntaInicial.addEventListener('click', function(){
+    preguntaInicial.style.display = 'none';
+    pregunta1.classList.add('visible');
 });
 
-// Event listener para mostrar la tercera pregunta cuando se contesta la segunda
+
+// Event listener para mostrar la segunda pregunta cuando se contesta la primera
 cantidadSelect.addEventListener('change', function(){
-    pregunta3.classList.add('visible')  
+    pregunta2.classList.add('visible');
     generarSecciones();
 });
 
-// Event listener para generar secciones cuando se contesta la tercera pregunta
-miniSelect.addEventListener('change', function(){
+// Event listener para mostrar la tercera pregunta cuando se contesta la segunda
+miniSelect.addEventListener('change', function(){ 
+    
 });
 
 }
