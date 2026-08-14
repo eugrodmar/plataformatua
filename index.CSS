@@ -1,18 +1,156 @@
+body {
+    background-color: #c9cb12;
+    font-family: 'Mont', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px 0;
+    box-sizing: border-box;
+}
+
+body h1{
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+div {
+      /* Tamaño y fondo */
+  width: 300px;
+  background-color: white;
+  
+  /* Esquinas redondeadas */
+  border-radius: 15px;
+  
+  /* Sombra suave */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+  /* Espaciado interno */
+  padding: 20px;
+  
+  /* Borde fino opcional */
+  border: 1px solid #eee;
+  
+  /* Tipografía y centrado de texto */
+  font-family: 'Mont', sans-serif;
+  color: #333;
+}
+
+button {
+    background-color: white;
+    color: #c9cb12;
+    border: 2px solid #c9cb12;
+    padding: 10px 20px;
+    font-family: 'Mont', sans-serif;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #b0b00f;
+}
+
+#btn-volver {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+}
+
 .pregunta-inicial {
     opacity: 0;
     height: 0;
     overflow: hidden;
-    transition: opacity 0.5s ease, height 0.5s ease, margin 0.5s ease;
+    padding: 0;
+    border: none;
     margin: 0;
+    transition: opacity 0.5s ease, height 0.5s ease, margin 0.5s ease, padding 0.5s ease;
 }
 
 .pregunta-inicial.visible {
     opacity: 1;
     height: auto;
     margin: 10px 0;
+    padding: 20px;
+    border: 1px solid #eee;
+}
+
+#bienvenida,
+.pregunta-inicial {
+    text-align: center;
+}
+
+.pregunta-inicial > label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.pregunta-inicial > select {
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.extra-campos input,
+.extra-campos select,
+.extra-campos textarea {
+    text-align: left;
+}
+
+.pregunta-inicial div {
+    width: 100%;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.extra-campos {
+    display: none;
+}
+
+.extra-campos.mostrar {
+    display: block;
+}
+
+.extra-campos label {
+    display: block;
+    margin-top: 8px;
+}
+
+.extra-campos input,
+.extra-campos select,
+.extra-campos textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn-continuar {
+    display: none;
+}
+
+.btn-continuar.mostrar {
+    display: block;
+    width: fit-content;
+    margin: 15px auto 0;
+}
+
+#desplegable-container {
+    width: 90%;
+    max-width: 1200px;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    padding: 0;
 }
 
 .seccion {
+    width: 100%;
+    box-sizing: border-box;
     border: 1px solid #ccc;
     padding: 10px;
     margin: 10px 0;

@@ -10,20 +10,61 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <link rel="manifest" href="favicon/site.webmanifest">
-
 </head>
-
 <body>
-    <header>Escaletas TUA</header>
+    <button id="btn-volver" onclick="retroceder()">← Volver</button>
 
-    <div>¡Hola! ¿Creamos la escaleta del programa?</div>
+    <div id="bienvenida">
+        <h1>¡Hola! ¿Creamos la escaleta del programa?</h1>
+        <button onclick="comenzar()" id="pregunta-inicial">¡Comencemos!</button>
+    </div>
 
-    <button onclick="preguntaInicial()" id="pregunta-inicial">¡Comencemos!</button>
-
-    
     <div class="pregunta-inicial" id="pregunta-1">
+        <label for="interview">¿Hay entrevista?</label>
+        <select id="interview" autocomplete="off">
+            <option value="" selected disabled>Selecciona una opción</option>
+            <option value="true">Sí</option>
+            <option value="false">No</option>
+        </select>
+
+        <div id="entrevista-extra" class="extra-campos">
+            <label for="entrevista-texto">Entrevista</label>
+            <input type="text" id="entrevista-texto" autocomplete="off">
+
+            <label for="entrevista-observaciones">Observaciones</label>
+            <textarea id="entrevista-observaciones"></textarea>
+        </div>
+
+        <button id="continuar-1" class="btn-continuar" onclick="continuarPregunta1()">Continuar</button>
+    </div>
+
+    <div class="pregunta-inicial" id="pregunta-2">
+        <label for="mini">¿Hay minisección?</label>
+        <select id="mini" autocomplete="off">
+            <option value="" selected disabled>Selecciona una opción</option>
+            <option value="true">Sí</option>
+            <option value="false">No</option>
+        </select>
+
+        <div id="mini-extra" class="extra-campos">
+            <label for="mini-cantidad">Número de minisecciones</label>
+            <select id="mini-cantidad" autocomplete="off">
+                <option value="" selected disabled>Selecciona nº</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+
+            <div id="mini-nombres-container"></div>
+        </div>
+
+        <button id="continuar-2" class="btn-continuar" onclick="continuarPregunta2()">Continuar</button>
+    </div>
+
+    <div class="pregunta-inicial" id="pregunta-3">
         <label for="cantidad">Número de secciones</label>
-        <select name="cantidad" id="cantidad" autocomplete="off">
+        <select id="cantidad" autocomplete="off">
             <option value="" selected disabled>Selecciona nº secciones</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -36,23 +77,14 @@
             <option value="9">9</option>
             <option value="10">10</option>
         </select>
-    </div>
 
-    <div class="pregunta-inicial" id="pregunta-2">
-        <label for="mini">¿Hay minisección?</label>
-        <select name="mini" id="mini" autocomplete="off">
-            <option value="" selected disabled>Selecciona una opción</option>
-            <option value="true">Sí</option>
-            <option value="false">No</option>
-        </select>
+        <button id="continuar-3" class="btn-continuar" onclick="continuarPregunta3()">Continuar</button>
     </div>
 
     <div id="desplegable-container"></div>
-
-    <button onclick="generarPDF()" id="generar-pdf">Generar PDF</button>
+    <button id="generar-pdf" onclick="generarPDF()">Generar PDF</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="index.js"></script>
 </body>
-
 </html>
