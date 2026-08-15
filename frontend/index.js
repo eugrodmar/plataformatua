@@ -35,7 +35,6 @@ let seccionesArray = [];
 let miniSeccionesArray = [];
 let entrevistaData = { texto: '', duracion: '', observaciones: '' };
 let escaletaFinal = [];
-let dragIndex = null;
 let locutores, duracion, seccion, minisecciones;
 let currentStep = 0;
 
@@ -372,8 +371,8 @@ function construirEscaletaFinal() {
 
 function renderBloques() {
     listaBloques.innerHTML = '';
-    escaletaFinal.forEach((bloque, index) => {
-        listaBloques.appendChild(crearTarjetaBloque(bloque, index));
+    escaletaFinal.forEach(bloque => {
+        listaBloques.appendChild(crearTarjetaBloque(bloque));
     });
 }
 
@@ -384,11 +383,9 @@ function agregarLinea(tarjeta, etiqueta, valor) {
     tarjeta.appendChild(p);
 }
 
-function crearTarjetaBloque(bloque, index) {
+function crearTarjetaBloque(bloque) {
     const tarjeta = document.createElement('div');
     tarjeta.className = 'bloque-preview';
-    tarjeta.draggable = true;
-    tarjeta.setAttribute('data-index', index);
 
     const titulo = document.createElement('h3');
     titulo.textContent = bloque.titulo;
@@ -408,38 +405,18 @@ function crearTarjetaBloque(bloque, index) {
         agregarLinea(tarjeta, 'Observaciones', bloque.observaciones);
     }
 
-    tarjeta.addEventListener('dragstart', function () {
-        dragIndex = index;
-        tarjeta.classList.add('arrastrando');
-    });
-
-    tarjeta.addEventListener('dragend', function () {
-        tarjeta.classList.remove('arrastrando');
-    });
-
-    tarjeta.addEventListener('dragover', function (e) {
-        e.preventDefault();
-        tarjeta.classList.add('sobre');
-    });
-
-    tarjeta.addEventListener('dragleave', function () {
-        tarjeta.classList.remove('sobre');
-    });
-
-    tarjeta.addEventListener('drop', function (e) {
-        e.preventDefault();
-        tarjeta.classList.remove('sobre');
-
-        if (dragIndex === null || dragIndex === index) return;
-
-        const [movido] = escaletaFinal.splice(dragIndex, 1);
-        escaletaFinal.splice(index, 0, movido);
-        dragIndex = null;
-        renderBloques();
-    });
-
     return tarjeta;
 }
+
+Sortable.create(listaBloques, {
+    animation: 150,
+    ghostClass: 'sortable-ghost',
+    chosenClass: 'sortable-chosen',
+    onEnd: function (evt) {
+        const [movido] = escaletaFinal.splice(evt.oldIndex, 1);
+        escaletaFinal.splice(evt.newIndex, 0, movido);
+    }
+});
 
 function combinarContenido(titulo, subtitulo) {
     if (!titulo && !subtitulo) return '';

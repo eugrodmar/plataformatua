@@ -236,11 +236,11 @@ button:hover {
     cursor: grabbing;
 }
 
-.bloque-preview.arrastrando {
+.sortable-ghost {
     opacity: 0.4;
 }
 
-.bloque-preview.sobre {
+.sortable-chosen {
     border-color: #c9cb12;
     border-width: 2px;
 }
