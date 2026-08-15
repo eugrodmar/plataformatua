@@ -1,6 +1,6 @@
 # Plataforma TUA
 
-Herramienta web para montar, paso a paso, la escaleta de un programa de radio: entrevista, minisecciones y secciones, con previsualización reordenable y generación del PDF final con horario incluido.
+Herramienta web para montar, paso a paso, la escaleta del programa de radio **Toda una amalgama** de **NEO FM**: entrevista, minisecciones y secciones, con previsualización reordenable y generación del PDF final con horario incluido.
 
 ## Qué hace
 
