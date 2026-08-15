@@ -14,6 +14,19 @@
 <body>
     <button id="btn-volver" onclick="retroceder()">← Volver</button>
 
+    <div id="login">
+        <h1>Iniciar sesión</h1>
+
+        <label for="login-name">Nombre de usuario</label>
+        <input type="text" id="login-name" autocomplete="username">
+
+        <label for="login-password">Contraseña</label>
+        <input type="password" id="login-password" autocomplete="current-password">
+
+        <button onclick="iniciarSesion()">Entrar</button>
+        <p id="login-error"></p>
+    </div>
+
     <div id="bienvenida">
         <h1>¡Hola! ¿Creamos la escaleta del programa?</h1>
         <button onclick="comenzar()" id="pregunta-inicial">¡Comencemos!</button>
@@ -30,6 +43,9 @@
         <div id="entrevista-extra" class="extra-campos">
             <label for="entrevista-texto">Entrevista</label>
             <input type="text" id="entrevista-texto" autocomplete="off">
+
+            <label for="entrevista-duracion">Duración</label>
+            <select id="entrevista-duracion" autocomplete="off"></select>
 
             <label for="entrevista-observaciones">Observaciones</label>
             <textarea id="entrevista-observaciones"></textarea>
@@ -82,9 +98,22 @@
     </div>
 
     <div id="desplegable-container"></div>
-    <button id="generar-pdf" onclick="generarPDF()">Generar PDF</button>
+    <button id="btn-vista-previa" onclick="mostrarPrevisualizacion()">Vista previa</button>
+
+    <div id="previsualizacion">
+        <h2>Previsualización de la escaleta</h2>
+        <p>Arrastra las tarjetas para reordenarlas</p>
+        <div id="lista-bloques"></div>
+        <div class="botones-previsualizacion">
+            <button onclick="volverAEditar()">Volver a editar</button>
+            <button onclick="generarPDF()">Generar PDF</button>
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="config.js"></script>
     <script src="index.js"></script>
 </body>
 </html>

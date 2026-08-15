@@ -78,8 +78,37 @@ button:hover {
 }
 
 #bienvenida,
-.pregunta-inicial {
+.pregunta-inicial,
+#login {
     text-align: center;
+}
+
+#bienvenida {
+    display: none;
+}
+
+#login label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
+
+#login input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#login button {
+    display: block;
+    width: fit-content;
+    margin: 15px auto 0;
+}
+
+#login-error {
+    color: #c0392b;
+    font-size: 13px;
+    min-height: 16px;
 }
 
 .pregunta-inicial > label {
@@ -163,4 +192,76 @@ button:hover {
 
 .seccion input, .seccion select, .seccion textarea {
     width: 100%;
+}
+
+#previsualizacion {
+    display: none;
+    width: 90%;
+    max-width: 1200px;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    text-align: center;
+}
+
+#previsualizacion.mostrar {
+    display: block;
+}
+
+#lista-bloques {
+    width: 100%;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+}
+
+.bloque-preview {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin: 10px 0;
+    cursor: grab;
+    transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+
+.bloque-preview:active {
+    cursor: grabbing;
+}
+
+.bloque-preview.arrastrando {
+    opacity: 0.4;
+}
+
+.bloque-preview.sobre {
+    border-color: #c9cb12;
+    border-width: 2px;
+}
+
+.bloque-preview h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+}
+
+.bloque-preview p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.botones-previsualizacion {
+    width: 100%;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
 }
