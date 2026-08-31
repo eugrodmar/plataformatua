@@ -17,13 +17,15 @@
     <div id="login">
         <h1>Iniciar sesión</h1>
 
-        <label for="login-name">Nombre de usuario</label>
-        <input type="text" id="login-name" autocomplete="username">
+        <form id="login-form" onsubmit="iniciarSesion(); return false;">
+            <label for="login-name">Nombre de usuario</label>
+            <input type="text" id="login-name" autocomplete="username">
 
-        <label for="login-password">Contraseña</label>
-        <input type="password" id="login-password" autocomplete="current-password">
+            <label for="login-password">Contraseña</label>
+            <input type="password" id="login-password" autocomplete="current-password">
 
-        <button onclick="iniciarSesion()">Entrar</button>
+            <button type="submit">Entrar</button>
+        </form>
         <p id="login-error"></p>
     </div>
 
