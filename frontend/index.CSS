@@ -42,15 +42,15 @@ div {
 
 button {
     background-color: white;
-    color: #c9cb12;
-    border: 2px solid #c9cb12;
+    color: #333;
+    border: 2px solid #7b4b2a;
     padding: 10px 20px;
     font-family: 'Mont', sans-serif;
     border-radius: 5px;
     cursor: pointer;
 }
 button:hover {
-    background-color: #b0b00f;
+    background-color: #dcdd6e;
 }
 
 #btn-volver {
@@ -86,6 +86,9 @@ button:hover {
 
 #bienvenida {
     display: none;
+    width: fit-content;
+    max-width: 100%;
+    padding: 15px 20px;
 }
 
 #login label {
@@ -205,6 +208,21 @@ button:hover {
     border: none;
     padding: 0;
     text-align: center;
+}
+
+#previsualizacion-intro {
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 15px;
+    padding: 12px 20px;
+}
+
+#previsualizacion-intro h2 {
+    margin: 0 0 6px;
+}
+
+#previsualizacion-intro p {
+    margin: 0;
 }
 
 #previsualizacion.mostrar {

@@ -30,7 +30,7 @@
     </div>
 
     <div id="bienvenida">
-        <h1>¡Hola! ¿Creamos la escaleta del programa?</h1>
+        <h1>¡Hola!<br>¿Creamos la escaleta del programa?</h1>
         <button onclick="comenzar()" id="pregunta-inicial">¡Comencemos!</button>
     </div>
 
@@ -103,8 +103,10 @@
     <button id="btn-vista-previa" onclick="mostrarPrevisualizacion()">Vista previa</button>
 
     <div id="previsualizacion">
-        <h2>Previsualización de la escaleta</h2>
-        <p>Arrastra las tarjetas para reordenarlas</p>
+        <div id="previsualizacion-intro">
+            <h2>Previsualización de la escaleta</h2>
+            <p>Arrastra las tarjetas para reordenarlas</p>
+        </div>
         <div id="lista-bloques"></div>
         <div class="botones-previsualizacion">
             <button onclick="volverAEditar()">Volver a editar</button>
