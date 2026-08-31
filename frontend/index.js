@@ -1,3 +1,4 @@
+// Referencias a los elementos del HTML que se usan en todo el archivo
 const desplegablesContainer = document.getElementById('desplegable-container');
 const cantidadSelect = document.getElementById('cantidad');
 const miniSelect = document.getElementById('mini');
@@ -26,16 +27,28 @@ const loginName = document.getElementById('login-name');
 const loginPassword = document.getElementById('login-password');
 const loginError = document.getElementById('login-error');
 
+// Hora a la que empieza el programa; a partir de aquí se calcula el horario de cada bloque
 const HORA_INICIO_PROGRAMA = '22:05';
+
+// Supabase Auth solo admite login por email, así que cada usuario se identifica como
+// "nombre@plataformatua.local" (un email falso que nunca se usa para enviar nada)
 const DOMINIO_USUARIOS = 'plataformatua.local';
 
+// Cliente de Supabase: mismo objeto para hacer login y para leer la tabla "opciones"
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// Estado de la escaleta que se está montando
 let seccionesArray = [];
 let miniSeccionesArray = [];
 let entrevistaData = { texto: '', duracion: '', observaciones: '' };
 let escaletaFinal = [];
+
+// Listas de opciones cargadas desde Supabase (locutores, duraciones, tipos de sección...)
 let locutores, duracion, seccion, minisecciones;
+
+// Paso actual del flujo (0 = login, 1 = pregunta entrevista, 2 = minisección,
+// 3 = número de secciones, 4 = editando secciones, 5 = previsualización).
+// Lo usa retroceder() para saber a qué pantalla volver.
 let currentStep = 0;
 
 // Ocultar elementos al inicio
@@ -43,6 +56,7 @@ bttnVistaPrevia.style.display = 'none';
 
 comprobarSesion();
 
+// Si el usuario ya había iniciado sesión antes, se salta la pantalla de login
 async function comprobarSesion() {
     const { data } = await supabaseClient.auth.getSession();
     if (data.session) {
@@ -50,6 +64,8 @@ async function comprobarSesion() {
     }
 }
 
+// Envía el formulario de login: convierte el nombre de usuario en el email falso
+// que espera Supabase y comprueba usuario/contraseña
 async function iniciarSesion() {
     loginError.textContent = '';
 
@@ -68,12 +84,16 @@ async function iniciarSesion() {
     entrarAlaApp();
 }
 
+// Se llama tras un login correcto (o si ya había sesión): oculta el login,
+// muestra la bienvenida y carga los datos necesarios para empezar
 function entrarAlaApp() {
     document.getElementById('login').style.display = 'none';
     document.getElementById('bienvenida').style.display = 'block';
     cargarOpciones();
 }
 
+// Lee la tabla "opciones" de Supabase y la reparte en las cuatro listas
+// (locutores, duracion, seccion, minisecciones) que usa el resto de la app
 async function cargarOpciones() {
     const { data, error } = await supabaseClient
         .from('opciones')
@@ -94,12 +114,15 @@ async function cargarOpciones() {
     iniciarEscaleta();
 }
 
+// Botón "¡Comencemos!": oculta la bienvenida y muestra la primera pregunta
 function comenzar() {
     document.getElementById('bienvenida').style.display = 'none';
     pregunta1.classList.add('visible');
     currentStep = 1;
 }
 
+// Engancha los listeners de las tres preguntas iniciales. Se llama una sola vez,
+// cuando ya han llegado los datos de Supabase (locutores, duraciones...)
 function iniciarEscaleta() {
 
     // Pregunta 1: mostrar/ocultar campos de entrevista y habilitar continuar
@@ -135,6 +158,8 @@ function iniciarEscaleta() {
     });
 }
 
+// Botón "Continuar" de la pregunta 3: genera el formulario de secciones y
+// pasa al paso 4 (edición de secciones)
 function continuarPregunta3() {
     pregunta3.classList.remove('visible');
     generarSecciones();
@@ -142,6 +167,8 @@ function continuarPregunta3() {
     currentStep = 4;
 }
 
+// Botón "Continuar" de la pregunta 1: guarda los datos de la entrevista
+// (si la hay) y pasa a la pregunta 2
 function continuarPregunta1() {
     if (interviewSelect.value === 'true') {
         entrevistaData.texto = entrevistaTexto.value;
@@ -157,6 +184,7 @@ function continuarPregunta1() {
     bttnVolver.style.display = 'block';
 }
 
+// Rellena un <select> con una <option> por cada valor de la lista dada
 function poblarSelect(select, opciones) {
     opciones.forEach(op => {
         const option = document.createElement('option');
@@ -166,6 +194,8 @@ function poblarSelect(select, opciones) {
     });
 }
 
+// Crea, para cada minisección elegida, un par de selects (nombre y duración)
+// y los guarda en miniSeccionesArray
 function generarMiniSecciones() {
     const cantidad = parseInt(miniCantidadSelect.value);
     miniSeccionesArray = [];
@@ -201,6 +231,8 @@ function generarMiniSecciones() {
     }
 }
 
+// Botón "Continuar" de la pregunta 2: si no hay minisecciones, limpia lo que
+// hubiera antes, y pasa a la pregunta 3 (número de secciones)
 function continuarPregunta2() {
     if (miniSelect.value !== 'true') {
         miniSeccionesArray = [];
@@ -211,6 +243,7 @@ function continuarPregunta2() {
     currentStep = 3;
 }
 
+// Botón "← Volver": deshace un paso del flujo según en cuál esté currentStep
 function retroceder() {
     if (currentStep === 5) {
         volverAEditar();
@@ -232,7 +265,8 @@ function retroceder() {
     }
 }
 
-
+// Crea un campo (label + input/select/textarea) para una sección concreta,
+// y lo conecta con seccionesArray para que se actualice al escribir/elegir
 function crearCampo(config, seccionObj, indice) {
     const label = document.createElement('label');
     label.textContent = config.label;
@@ -274,7 +308,8 @@ function crearCampo(config, seccionObj, indice) {
     return { label, input };
 }
 
-
+// Ajusta seccionesArray al número elegido (añade o recorta) y pinta el
+// formulario editable de cada sección (locutor, duración, tema, cama...)
 function generarSecciones() {
     const cantidad = parseInt(cantidadSelect.value);
 
@@ -319,7 +354,8 @@ function generarSecciones() {
     });
 }
 
-
+// Botón "Vista previa": junta entrevista + minisecciones + secciones en un
+// único orden (escaletaFinal) y muestra la pantalla de previsualización
 function mostrarPrevisualizacion() {
     escaletaFinal = construirEscaletaFinal();
     desplegablesContainer.style.display = 'none';
@@ -329,6 +365,7 @@ function mostrarPrevisualizacion() {
     currentStep = 5;
 }
 
+// Botón "Volver a editar": cierra la previsualización y vuelve al formulario de secciones
 function volverAEditar() {
     previsualizacion.classList.remove('mostrar');
     desplegablesContainer.style.display = 'block';
@@ -336,6 +373,8 @@ function volverAEditar() {
     currentStep = 4;
 }
 
+// Construye la lista ordenada de "bloques" (entrevista, minisecciones y
+// secciones) que se muestra en la previsualización y se usa para el PDF
 function construirEscaletaFinal() {
     const bloques = [];
 
@@ -369,6 +408,8 @@ function construirEscaletaFinal() {
     return bloques;
 }
 
+// Vacía y vuelve a pintar la lista de tarjetas de la previsualización
+// a partir de escaletaFinal (se llama al mostrarla y tras reordenarla)
 function renderBloques() {
     listaBloques.innerHTML = '';
     escaletaFinal.forEach(bloque => {
@@ -376,6 +417,8 @@ function renderBloques() {
     });
 }
 
+// Añade a una tarjeta una línea "Etiqueta: valor", pero solo si hay valor
+// (evita líneas vacías tipo "Cama: " cuando ese campo no se ha rellenado)
 function agregarLinea(tarjeta, etiqueta, valor) {
     if (!valor) return;
     const p = document.createElement('p');
@@ -383,6 +426,8 @@ function agregarLinea(tarjeta, etiqueta, valor) {
     tarjeta.appendChild(p);
 }
 
+// Crea la tarjeta de un bloque para la previsualización, con los datos
+// que correspondan según sea entrevista, minisección o sección
 function crearTarjetaBloque(bloque) {
     const tarjeta = document.createElement('div');
     tarjeta.className = 'bloque-preview';
@@ -408,6 +453,9 @@ function crearTarjetaBloque(bloque) {
     return tarjeta;
 }
 
+// Activa el arrastrar-y-soltar (ratón y dedo) sobre el contenedor de tarjetas.
+// Al soltar una tarjeta en otra posición, reordena escaletaFinal para que
+// coincida con el nuevo orden visual
 Sortable.create(listaBloques, {
     animation: 150,
     ghostClass: 'sortable-ghost',
@@ -418,6 +466,8 @@ Sortable.create(listaBloques, {
     }
 });
 
+// Junta un título y un subtítulo en el formato "TÍTULO\n"subtítulo"" que se
+// usa en la columna CONTENIDO del PDF, omitiendo la parte que falte
 function combinarContenido(titulo, subtitulo) {
     if (!titulo && !subtitulo) return '';
     if (!subtitulo) return titulo;
@@ -425,12 +475,14 @@ function combinarContenido(titulo, subtitulo) {
     return `${titulo}\n"${subtitulo}"`;
 }
 
+// Extrae el número de minutos de un texto de duración tipo "15 min"
 function parseDuracionAMinutos(duracionStr) {
     if (!duracionStr) return 0;
     const match = duracionStr.match(/\d+/);
     return match ? parseInt(match[0]) : 0;
 }
 
+// Convierte un total de minutos del día en texto "HH:MM"
 function formatearMinutos(totalMinutos) {
     const minutosEnDia = ((totalMinutos % 1440) + 1440) % 1440;
     const horas = Math.floor(minutosEnDia / 60);
@@ -438,6 +490,8 @@ function formatearMinutos(totalMinutos) {
     return `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}`;
 }
 
+// Calcula el horario "inicio-fin" de cada bloque, empezando en
+// HORA_INICIO_PROGRAMA y sumando las duraciones una tras otra
 function calcularHorarios(bloques) {
     const [horaIni, minIni] = HORA_INICIO_PROGRAMA.split(':').map(Number);
     let minutoActual = horaIni * 60 + minIni;
@@ -451,6 +505,8 @@ function calcularHorarios(bloques) {
     });
 }
 
+// Convierte un bloque (entrevista, minisección o sección) en la fila que
+// aparecerá en la tabla del PDF, con sus columnas en el orden correcto
 function filaDeBloque(bloque, horario) {
     if (bloque.tipo === 'entrevista') {
         return [
@@ -484,6 +540,8 @@ function filaDeBloque(bloque, horario) {
     ];
 }
 
+// Botón "Generar PDF": calcula los horarios sobre el orden final de
+// escaletaFinal y genera el documento en horizontal como una tabla
 function generarPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'landscape' });

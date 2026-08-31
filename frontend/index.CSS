@@ -1,3 +1,7 @@
+/* ==========================================================================
+   Base: fondo de la página y tipografía general
+   ========================================================================== */
+
 body {
     background-color: #c9cb12;
     font-family: 'Mont', sans-serif;
@@ -17,24 +21,27 @@ body h1{
     text-align: center;
 }
 
+/* Estilo de "tarjeta blanca" que heredan todos los <div> por defecto
+   (bienvenida, login, preguntas...). Los contenedores que necesitan otro
+   aspecto (más anchos, sin sombra...) lo sobrescriben más abajo. */
 div {
       /* Tamaño y fondo */
   width: 300px;
   max-width: 100%;
   background-color: white;
-  
+
   /* Esquinas redondeadas */
   border-radius: 15px;
-  
+
   /* Sombra suave */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  
+
   /* Espaciado interno */
   padding: 20px;
-  
+
   /* Borde fino opcional */
   border: 1px solid #eee;
-  
+
   /* Tipografía y centrado de texto */
   font-family: 'Mont', sans-serif;
   color: #333;
@@ -53,12 +60,19 @@ button:hover {
     background-color: #dcdd6e;
 }
 
+/* Botón fijo de "← Volver", flota sobre el contenido en vez de formar
+   parte del flujo normal de la página */
 #btn-volver {
     display: none;
     position: fixed;
     top: 20px;
     left: 20px;
 }
+
+/* ==========================================================================
+   Preguntas iniciales (entrevista, minisección, número de secciones)
+   Cada pregunta se anima con opacidad/alto al mostrarse u ocultarse
+   ========================================================================== */
 
 .pregunta-inicial {
     opacity: 0;
@@ -91,6 +105,10 @@ button:hover {
     padding: 15px 20px;
 }
 
+/* ==========================================================================
+   Pantalla de login
+   ========================================================================== */
+
 #login label {
     display: block;
     margin-top: 10px;
@@ -115,6 +133,7 @@ button:hover {
     min-height: 16px;
 }
 
+/* Label y select de cada pregunta, siempre uno debajo del otro y centrados */
 .pregunta-inicial > label {
     display: block;
     margin-bottom: 10px;
@@ -133,6 +152,9 @@ button:hover {
     text-align: left;
 }
 
+/* Los <div> anidados dentro de una pregunta (los campos extra de entrevista
+   y minisección) no deben verse como una tarjeta aparte, así que se les
+   quita el fondo/sombra/borde que trae la regla general de "div" */
 .pregunta-inicial div {
     width: 100%;
     background-color: transparent;
@@ -143,6 +165,7 @@ button:hover {
     box-sizing: border-box;
 }
 
+/* Campos que solo aparecen si la respuesta es "Sí" (entrevista/minisección) */
 .extra-campos {
     display: none;
 }
@@ -163,6 +186,7 @@ button:hover {
     box-sizing: border-box;
 }
 
+/* Botón "Continuar" de cada pregunta: oculto hasta que hay una respuesta */
 .btn-continuar {
     display: none;
 }
@@ -172,6 +196,10 @@ button:hover {
     width: fit-content;
     margin: 15px auto 0;
 }
+
+/* ==========================================================================
+   Formulario de secciones (después de elegir cuántas hay)
+   ========================================================================== */
 
 #desplegable-container {
     width: 90%;
@@ -199,6 +227,10 @@ button:hover {
     width: 100%;
 }
 
+/* ==========================================================================
+   Previsualización: tarjetas arrastrables antes de generar el PDF
+   ========================================================================== */
+
 #previsualizacion {
     display: none;
     width: 90%;
@@ -210,6 +242,8 @@ button:hover {
     text-align: center;
 }
 
+/* Tarjeta con el título "Previsualización..." y el texto de ayuda, separada
+   de la lista de bloques y ajustada al tamaño del texto (no a los 300px fijos) */
 #previsualizacion-intro {
     width: fit-content;
     max-width: 100%;
@@ -254,6 +288,7 @@ button:hover {
     cursor: grabbing;
 }
 
+/* Clases que aplica SortableJS mientras se arrastra una tarjeta */
 .sortable-ghost {
     opacity: 0.4;
 }
@@ -286,6 +321,10 @@ button:hover {
     gap: 15px;
     margin-top: 20px;
 }
+
+/* ==========================================================================
+   Ajustes para pantallas pequeñas (móvil)
+   ========================================================================== */
 
 @media (max-width: 480px) {
     body {
