@@ -27,6 +27,10 @@ const loginName = document.getElementById('login-name');
 const loginPassword = document.getElementById('login-password');
 const loginError = document.getElementById('login-error');
 
+const buscador = document.getElementById('buscador');
+const buscadorInput = document.getElementById('buscador-input');
+const buscadorResultados = document.getElementById('buscador-resultados');
+
 // Hora a la que empieza el programa; a partir de aquí se calcula el horario de cada bloque
 const HORA_INICIO_PROGRAMA = '22:05';
 
@@ -36,6 +40,10 @@ const DOMINIO_USUARIOS = 'plataformatua.local';
 
 // Cliente de Supabase: mismo objeto para hacer login y para leer la tabla "opciones"
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Episodios de Spotify ya descargados, para no volver a pedirlos en cada
+// búsqueda (se rellena la primera vez que se abre el buscador)
+let episodiosCache = null;
 
 // Estado de la escaleta que se está montando
 let seccionesArray = [];
@@ -119,6 +127,91 @@ function comenzar() {
     document.getElementById('bienvenida').style.display = 'none';
     pregunta1.classList.add('visible');
     currentStep = 1;
+}
+
+// Botón "Buscar temas ya tratados": abre el buscador y, la primera vez,
+// descarga los episodios de Spotify a través de la Netlify Function
+async function mostrarBuscador() {
+    document.getElementById('bienvenida').style.display = 'none';
+    buscador.style.display = 'block';
+    buscadorInput.value = '';
+    buscadorResultados.innerHTML = '';
+
+    if (episodiosCache) return;
+
+    buscadorResultados.textContent = 'Cargando episodios...';
+
+    try {
+        const respuesta = await fetch('/.netlify/functions/buscar-episodios');
+        episodiosCache = await respuesta.json();
+        buscadorResultados.textContent = '';
+    } catch (error) {
+        console.error('Error al cargar episodios', error);
+        buscadorResultados.textContent = 'No se han podido cargar los episodios.';
+    }
+}
+
+// Botón "Volver" del buscador: cierra el buscador y vuelve a la bienvenida
+function volverDesdeBuscador() {
+    buscador.style.display = 'none';
+    document.getElementById('bienvenida').style.display = 'block';
+}
+
+// Filtra episodiosCache por lo escrito, comparando tanto el nombre como la
+// descripción del episodio, y pinta los resultados
+function buscarEpisodios(texto) {
+    buscadorResultados.innerHTML = '';
+
+    if (!episodiosCache) return;
+
+    const termino = texto.trim().toLowerCase();
+    if (!termino) return;
+
+    const resultados = episodiosCache.filter(ep =>
+        ep.nombre.toLowerCase().includes(termino) ||
+        (ep.descripcion || '').toLowerCase().includes(termino)
+    );
+
+    if (resultados.length === 0) {
+        buscadorResultados.textContent = 'No se ha encontrado ningún episodio con ese tema.';
+        return;
+    }
+
+    resultados.forEach(ep => buscadorResultados.appendChild(crearTarjetaEpisodio(ep)));
+}
+
+buscadorInput.addEventListener('input', function (e) {
+    buscarEpisodios(e.target.value);
+});
+
+// Crea la tarjeta de un episodio encontrado, con enlace directo a Spotify
+function crearTarjetaEpisodio(ep) {
+    const tarjeta = document.createElement('div');
+    tarjeta.className = 'episodio-resultado';
+
+    const titulo = document.createElement('h3');
+    titulo.textContent = ep.nombre;
+    tarjeta.appendChild(titulo);
+
+    const fecha = document.createElement('p');
+    fecha.className = 'episodio-fecha';
+    fecha.textContent = ep.fecha;
+    tarjeta.appendChild(fecha);
+
+    if (ep.descripcion) {
+        const descripcion = document.createElement('p');
+        descripcion.textContent = ep.descripcion;
+        tarjeta.appendChild(descripcion);
+    }
+
+    const enlace = document.createElement('a');
+    enlace.href = ep.url;
+    enlace.target = '_blank';
+    enlace.rel = 'noopener';
+    enlace.textContent = 'Escuchar en Spotify';
+    tarjeta.appendChild(enlace);
+
+    return tarjeta;
 }
 
 // Engancha los listeners de las tres preguntas iniciales. Se llama una sola vez,

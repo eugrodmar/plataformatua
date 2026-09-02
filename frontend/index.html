@@ -36,6 +36,16 @@
     <div id="bienvenida">
         <h1>¡Hola!<br>¿Creamos la escaleta del programa?</h1>
         <button onclick="comenzar()" id="pregunta-inicial">¡Comencemos!</button>
+        <button onclick="mostrarBuscador()">Buscar temas ya tratados</button>
+    </div>
+
+    <!-- Buscador de temas ya tratados: consulta los episodios publicados en
+         Spotify (vía una Netlify Function) y filtra por nombre/descripción -->
+    <div id="buscador">
+        <h2>Buscar temas ya tratados</h2>
+        <input type="text" id="buscador-input" placeholder="Escribe una palabra clave..." autocomplete="off">
+        <div id="buscador-resultados"></div>
+        <button onclick="volverDesdeBuscador()">Volver</button>
     </div>
 
     <!-- Pregunta 1: ¿hay entrevista? Si se responde "Sí" aparecen los campos
