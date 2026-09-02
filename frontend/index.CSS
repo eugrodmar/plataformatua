@@ -340,6 +340,14 @@ button:hover {
     margin-bottom: 15px;
 }
 
+/* Botón "Volver", único botón hijo directo de #buscador (los demás
+   están dentro de #buscador-resultados) */
+#buscador > button {
+    display: block;
+    width: fit-content;
+    margin: 20px auto 0;
+}
+
 #buscador-resultados {
     width: 100%;
     background-color: transparent;
