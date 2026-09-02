@@ -69,6 +69,15 @@ button:hover {
     left: 20px;
 }
 
+/* Botón fijo de "Volver al inicio", en la esquina opuesta para no
+   solaparse con "← Volver" */
+#btn-volver-inicio {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}
+
 /* ==========================================================================
    Preguntas iniciales (entrevista, minisección, número de secciones)
    Cada pregunta se anima con opacidad/alto al mostrarse u ocultarse
@@ -412,6 +421,13 @@ button:hover {
     #btn-volver {
         top: 10px;
         left: 10px;
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    #btn-volver-inicio {
+        top: 10px;
+        right: 10px;
         padding: 6px 12px;
         font-size: 13px;
     }

@@ -8,6 +8,7 @@ const pregunta2 = document.getElementById('pregunta-2');
 const pregunta3 = document.getElementById('pregunta-3');
 const bttnVistaPrevia = document.getElementById('btn-vista-previa');
 const bttnVolver = document.getElementById('btn-volver');
+const bttnVolverInicio = document.getElementById('btn-volver-inicio');
 const continuar3 = document.getElementById('continuar-3');
 const previsualizacion = document.getElementById('previsualizacion');
 const listaBloques = document.getElementById('lista-bloques');
@@ -126,6 +127,7 @@ async function cargarOpciones() {
 function escaleta() {
     document.getElementById('bienvenida').style.display = 'none';
     pregunta1.classList.add('visible');
+    bttnVolverInicio.style.display = 'block';
     currentStep = 1;
 }
 
@@ -133,6 +135,7 @@ function escaleta() {
 // descarga los episodios de Spotify a través de la Netlify Function
 async function mostrarBuscador() {
     document.getElementById('bienvenida').style.display = 'none';
+    bttnVolverInicio.style.display = 'block';
     buscador.style.display = 'block';
     buscadorInput.value = '';
     buscadorResultados.innerHTML = '';
@@ -155,6 +158,48 @@ async function mostrarBuscador() {
 function volverDesdeBuscador() {
     buscador.style.display = 'none';
     document.getElementById('bienvenida').style.display = 'block';
+    bttnVolverInicio.style.display = 'none';
+}
+
+// Botón "Volver al inicio": cierra cualquier pantalla, resetea los datos y
+// los formularios, y vuelve a la bienvenida
+function volverAlInicio() {
+    document.getElementById('bienvenida').style.display = 'block';
+    desplegablesContainer.innerHTML = '';
+    bttnVistaPrevia.style.display = 'none';
+    bttnVolver.style.display = 'none';
+    bttnVolverInicio.style.display = 'none';
+    pregunta3.classList.remove('visible');
+    pregunta2.classList.remove('visible');
+    pregunta1.classList.remove('visible');
+    previsualizacion.classList.remove('mostrar');
+    buscador.style.display = 'none';
+    currentStep = 0;
+
+    // Datos de la escaleta en curso
+    seccionesArray = [];
+    miniSeccionesArray = [];
+    entrevistaData = { texto: '', duracion: '', observaciones: '' };
+    escaletaFinal = [];
+
+    // Formulario de la pregunta 1 (entrevista)
+    interviewSelect.value = '';
+    entrevistaTexto.value = '';
+    entrevistaDuracionSelect.value = '';
+    entrevistaObservaciones.value = '';
+    entrevistaExtra.classList.remove('mostrar');
+    continuar1.classList.remove('mostrar');
+
+    // Formulario de la pregunta 2 (minisección)
+    miniSelect.value = '';
+    miniCantidadSelect.value = '';
+    miniNombresContainer.innerHTML = '';
+    miniExtra.classList.remove('mostrar');
+    continuar2.classList.remove('mostrar');
+
+    // Formulario de la pregunta 3 (número de secciones)
+    cantidadSelect.value = '';
+    continuar3.classList.remove('mostrar');
 }
 
 // Resultados de la búsqueda actual y cuántos se han pintado ya (se muestran
