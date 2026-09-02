@@ -405,6 +405,12 @@ button:hover {
     color: #555;
 }
 
+/* Conserva los saltos de línea de la descripción (p. ej. los minutados
+   por tema que suele incluir iVoox en la descripción del episodio) */
+.episodio-descripcion {
+    white-space: pre-line;
+}
+
 .episodio-resultado a {
     font-size: 14px;
     color: #7b4b2a;

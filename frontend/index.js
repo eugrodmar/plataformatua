@@ -256,7 +256,7 @@ buscadorInput.addEventListener('input', function (e) {
     buscarEpisodios(e.target.value);
 });
 
-// Crea la tarjeta de un episodio encontrado, con enlace directo a Spotify
+// Crea la tarjeta de un episodio encontrado
 function crearTarjetaEpisodio(ep) {
     const tarjeta = document.createElement('div');
     tarjeta.className = 'episodio-resultado';
@@ -272,16 +272,10 @@ function crearTarjetaEpisodio(ep) {
 
     if (ep.descripcion) {
         const descripcion = document.createElement('p');
+        descripcion.className = 'episodio-descripcion';
         descripcion.textContent = ep.descripcion;
         tarjeta.appendChild(descripcion);
     }
-
-    const enlace = document.createElement('a');
-    enlace.href = ep.url;
-    enlace.target = '_blank';
-    enlace.rel = 'noopener';
-    enlace.textContent = 'Escuchar en Spotify';
-    tarjeta.appendChild(enlace);
 
     return tarjeta;
 }
