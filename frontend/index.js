@@ -122,8 +122,8 @@ async function cargarOpciones() {
     iniciarEscaleta();
 }
 
-// Botón "¡Comencemos!": oculta la bienvenida y muestra la primera pregunta
-function comenzar() {
+// Botón "Crear escaleta": oculta la bienvenida y muestra la primera pregunta
+function escaleta() {
     document.getElementById('bienvenida').style.display = 'none';
     pregunta1.classList.add('visible');
     currentStep = 1;
