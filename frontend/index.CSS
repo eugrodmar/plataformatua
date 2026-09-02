@@ -11,7 +11,9 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px 10px;
+    /* Más margen arriba que a los lados: reserva sitio para que el contenido
+       nunca quede debajo de los botones fijos "← Volver"/"Volver al inicio" */
+    padding: 70px 10px 20px;
     box-sizing: border-box;
 }
 
@@ -51,7 +53,7 @@ button {
     background-color: white;
     color: #333;
     border: 2px solid #7b4b2a;
-    padding: 10px 20px;
+    padding: 10px 12px;
     font-family: 'Mont', sans-serif;
     border-radius: 5px;
     cursor: pointer;
@@ -60,21 +62,24 @@ button:hover {
     background-color: #dcdd6e;
 }
 
-/* Botón fijo de "← Volver", flota sobre el contenido en vez de formar
-   parte del flujo normal de la página */
-#btn-volver {
-    display: none;
-    position: fixed;
-    top: 20px;
-    left: 20px;
-}
-
-/* Botón fijo de "Volver al inicio", en la esquina opuesta para no
-   solaparse con "← Volver" */
+/* Botones fijos de navegación ("← Volver" y "Volver al inicio"), flotan
+   sobre el contenido en vez de formar parte del flujo normal de la página.
+   Pequeños y compactos para estorbar lo menos posible al hacer scroll. */
+#btn-volver,
 #btn-volver-inicio {
     display: none;
     position: fixed;
     top: 20px;
+    padding: 6px 10px;
+    font-size: 13px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#btn-volver {
+    left: 20px;
+}
+
+#btn-volver-inicio {
     right: 20px;
 }
 
@@ -411,7 +416,7 @@ button:hover {
 
 @media (max-width: 480px) {
     body {
-        padding: 15px 8px;
+        padding: 55px 8px 15px;
     }
 
     body h1 {
@@ -419,17 +424,17 @@ button:hover {
     }
 
     #btn-volver {
-        top: 10px;
-        left: 10px;
-        padding: 6px 12px;
-        font-size: 13px;
+        top: 8px;
+        left: 8px;
+        padding: 5px 8px;
+        font-size: 12px;
     }
 
     #btn-volver-inicio {
-        top: 10px;
-        right: 10px;
-        padding: 6px 12px;
-        font-size: 13px;
+        top: 8px;
+        right: 8px;
+        padding: 5px 8px;
+        font-size: 12px;
     }
 
     .pregunta-inicial.visible,
