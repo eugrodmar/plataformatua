@@ -349,6 +349,12 @@ button:hover {
     text-align: left;
 }
 
+#boton-ver-mas {
+    display: block;
+    width: fit-content;
+    margin: 10px auto 0;
+}
+
 .episodio-resultado {
     width: 100%;
     box-sizing: border-box;

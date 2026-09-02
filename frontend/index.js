@@ -157,27 +157,54 @@ function volverDesdeBuscador() {
     document.getElementById('bienvenida').style.display = 'block';
 }
 
+// Resultados de la búsqueda actual y cuántos se han pintado ya (se muestran
+// de TAMANO_PAGINA en TAMANO_PAGINA con el botón "Ver más resultados")
+let resultadosBusquedaActual = [];
+let resultadosMostrados = 0;
+const TAMANO_PAGINA = 10;
+
 // Filtra episodiosCache por lo escrito, comparando tanto el nombre como la
-// descripción del episodio, y pinta los resultados
+// descripción del episodio, y pinta la primera tanda de resultados
 function buscarEpisodios(texto) {
     buscadorResultados.innerHTML = '';
+    resultadosBusquedaActual = [];
+    resultadosMostrados = 0;
 
     if (!episodiosCache) return;
 
     const termino = texto.trim().toLowerCase();
     if (!termino) return;
 
-    const resultados = episodiosCache.filter(ep =>
+    resultadosBusquedaActual = episodiosCache.filter(ep =>
         ep.nombre.toLowerCase().includes(termino) ||
         (ep.descripcion || '').toLowerCase().includes(termino)
     );
 
-    if (resultados.length === 0) {
+    if (resultadosBusquedaActual.length === 0) {
         buscadorResultados.textContent = 'No se ha encontrado ningún episodio con ese tema.';
         return;
     }
 
-    resultados.forEach(ep => buscadorResultados.appendChild(crearTarjetaEpisodio(ep)));
+    mostrarMasResultados();
+}
+
+// Añade la siguiente tanda de tarjetas (10 más) y, si aún quedan resultados
+// por mostrar, deja el botón "Ver más resultados" al final de la lista
+function mostrarMasResultados() {
+    const botonAnterior = document.getElementById('boton-ver-mas');
+    if (botonAnterior) botonAnterior.remove();
+
+    const siguienteTanda = resultadosBusquedaActual.slice(resultadosMostrados, resultadosMostrados + TAMANO_PAGINA);
+    siguienteTanda.forEach(ep => buscadorResultados.appendChild(crearTarjetaEpisodio(ep)));
+    resultadosMostrados += siguienteTanda.length;
+
+    if (resultadosMostrados < resultadosBusquedaActual.length) {
+        const boton = document.createElement('button');
+        boton.id = 'boton-ver-mas';
+        boton.textContent = 'Ver más resultados';
+        boton.onclick = mostrarMasResultados;
+        buscadorResultados.appendChild(boton);
+    }
 }
 
 buscadorInput.addEventListener('input', function (e) {
