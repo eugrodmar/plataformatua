@@ -54,6 +54,7 @@ let escaletaFinal = [];
 
 // Listas de opciones cargadas desde Supabase (locutores, duraciones, tipos de sección...)
 let locutores, duracion, seccion, minisecciones;
+let rrssPorLocutor = {};
 
 // Paso actual del flujo (0 = login, 1 = pregunta entrevista, 2 = minisección,
 // 3 = número de secciones, 4 = editando secciones, 5 = previsualización).
@@ -106,7 +107,7 @@ function entrarAlaApp() {
 async function cargarOpciones() {
     const { data, error } = await supabaseClient
         .from('opciones')
-        .select('categoria, valor')
+        .select('categoria, valor, rrss')
         .order('orden');
 
     if (error) {
@@ -118,6 +119,13 @@ async function cargarOpciones() {
     duracion = data.filter(o => o.categoria === 'duracion').map(o => o.valor);
     seccion = data.filter(o => o.categoria === 'seccion').map(o => o.valor);
     minisecciones = data.filter(o => o.categoria === 'minisección').map(o => o.valor);
+
+    // Usuario de redes sociales de cada locutor/a, para autorrellenar
+    // el campo Observaciones al elegirlo en una sección
+    rrssPorLocutor = {};
+    data.filter(o => o.categoria === 'locutor').forEach(o => {
+        rrssPorLocutor[o.valor] = o.rrss || '';
+    });
 
     poblarSelect(entrevistaDuracionSelect, duracion);
     iniciarEscaleta();
@@ -503,14 +511,42 @@ function generarSecciones() {
         divSeccion.className = 'seccion';
         divSeccion.setAttribute('data-seccion', i);
 
+        let inputLocutor;
+
         campos.forEach(c => {
             const { label, input } = crearCampo(c, seccionObj, i);
             divSeccion.appendChild(label);
             divSeccion.appendChild(input);
+
+            if (c.campo === 'locutor') {
+                inputLocutor = input;
+            }
+        });
+
+        // Autorrellena Observaciones con el RRSS del locutor por defecto,
+        // pero solo si el campo está vacío (para no pisar lo ya escrito)
+        if (!seccionObj.observaciones) {
+            aplicarRRSSaObservaciones(divSeccion, seccionObj, inputLocutor.value);
+        }
+
+        // Al cambiar de locutor, se vuelve a rellenar con su RRSS
+        inputLocutor.addEventListener('change', function (e) {
+            aplicarRRSSaObservaciones(divSeccion, seccionObj, e.target.value);
         });
 
         desplegablesContainer.appendChild(divSeccion);
     });
+}
+
+// Escribe en el campo Observaciones de una sección el RRSS del locutor
+// indicado, y sincroniza el dato con seccionesArray
+function aplicarRRSSaObservaciones(divSeccion, seccionObj, nombreLocutor) {
+    const campoObservaciones = divSeccion.querySelector('[data-campo="observaciones"]');
+    if (!campoObservaciones) return;
+
+    const rrss = rrssPorLocutor[nombreLocutor] || '';
+    campoObservaciones.value = rrss;
+    seccionObj.observaciones = rrss;
 }
 
 // Botón "Vista previa": junta entrevista + minisecciones + secciones en un

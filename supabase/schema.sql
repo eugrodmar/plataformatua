@@ -3,7 +3,10 @@ create table if not exists public.opciones (
     id bigint generated always as identity primary key,
     categoria text not null check (categoria in ('locutor', 'seccion', 'minisección', 'duracion')),
     valor text not null,
-    orden integer not null
+    orden integer not null,
+    -- Solo se usa para categoria = 'locutor': su usuario de redes sociales,
+    -- para autorrellenar el campo Observaciones al elegirlo en una sección
+    rrss text
 );
 
 -- Activa Row Level Security (solo usuarios autenticados podrán leer)
